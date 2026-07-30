@@ -1,7 +1,29 @@
-import { weeklyForecast } from "../../constants/weatherData";
+import { FiCloud, FiCloudRain, FiSun } from "react-icons/fi";
 import ForecastCard from "./ForecastCard";
 
-function WeeklyForecast() {
+const getWeatherIcon = (weatherCode) => {
+  if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(weatherCode)) {
+    return FiCloudRain;
+  }
+
+  if ([0, 1].includes(weatherCode)) {
+    return FiSun;
+  }
+
+  return FiCloud;
+};
+
+const formatDay = (date) =>
+  date
+    ? new Date(`${date}T00:00:00`).toLocaleDateString("en-US", {
+        weekday: "short",
+      })
+    : "—";
+
+const formatTemperature = (temperature, unit) =>
+  temperature == null ? "—" : `${Math.round(temperature)}${unit}`;
+
+function WeeklyForecast({ forecast = [], isLoading }) {
   return (
     <section aria-labelledby="weekly-forecast-heading">
       <div className="mb-5 sm:mb-6">
@@ -15,12 +37,20 @@ function WeeklyForecast() {
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-7">
-        {weeklyForecast.map(({ timeOrDay, temperature, weatherIcon }) => (
+        {isLoading && forecast.length === 0 && (
+          <p className="text-sm text-slate-300">Loading weekly forecast...</p>
+        )}
+
+        {!isLoading && forecast.length === 0 && (
+          <p className="text-sm text-slate-300">Weekly forecast is unavailable.</p>
+        )}
+
+        {forecast.map((day) => (
           <ForecastCard
-            key={timeOrDay}
-            timeOrDay={timeOrDay}
-            temperature={temperature}
-            weatherIcon={weatherIcon}
+            key={day.date}
+            timeOrDay={formatDay(day.date)}
+            temperature={`Max ${formatTemperature(day.temperatureMax, day.units?.temperature || "°C")} / Min ${formatTemperature(day.temperatureMin, day.units?.temperature || "°C")}`}
+            weatherIcon={getWeatherIcon(day.weatherCode)}
           />
         ))}
       </div>

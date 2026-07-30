@@ -1,6 +1,19 @@
 import { FiMapPin, FiSearch } from "react-icons/fi";
+import { useState } from "react";
 
-function Hero() {
+function Hero({ onSearch, isLoading, error }) {
+  const [cityName, setCityName] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const trimmedCityName = cityName.trim();
+
+    if (trimmedCityName) {
+      onSearch(trimmedCityName);
+    }
+  };
+
   return (
     <section
       aria-labelledby="hero-heading"
@@ -24,7 +37,11 @@ function Hero() {
           Check weather anywhere in the world
         </p>
 
-        <form className="mx-auto mt-9 max-w-2xl sm:mt-10" role="search">
+        <form
+          className="mx-auto mt-9 max-w-2xl sm:mt-10"
+          role="search"
+          onSubmit={handleSubmit}
+        >
           <label htmlFor="city-search" className="sr-only">
             Search for a city
           </label>
@@ -33,18 +50,29 @@ function Hero() {
               id="city-search"
               type="search"
               placeholder="Enter city name..."
+              value={cityName}
+              onChange={(event) => setCityName(event.target.value)}
               className="min-w-0 flex-1 bg-transparent px-3 text-base text-white outline-none placeholder:text-slate-400 sm:px-4"
             />
             <button
               type="submit"
+              disabled={isLoading}
               className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-sky-400 px-4 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-200 sm:px-5"
             >
               <FiSearch aria-hidden="true" className="text-lg" />
-              <span className="hidden sm:inline">Search</span>
+              <span className="hidden sm:inline">
+                {isLoading ? "Searching..." : "Search"}
+              </span>
               <span className="sr-only sm:hidden">Search city</span>
             </button>
           </div>
         </form>
+
+        {error && (
+          <p className="mt-3 text-sm text-red-300" role="alert">
+            {error}
+          </p>
+        )}
 
         <button
           type="button"

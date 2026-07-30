@@ -2,7 +2,6 @@ import {
   FiActivity,
   FiCloud,
   FiCloudRain,
-  FiCloudSun,
   FiDroplet,
   FiEye,
   FiSun,
@@ -21,19 +20,19 @@ export const weatherHighlights = [
 
 export const weeklyForecast = [
   { timeOrDay: "Mon", temperature: "32°", weatherIcon: FiSun },
-  { timeOrDay: "Tue", temperature: "31°", weatherIcon: FiCloudSun },
+  { timeOrDay: "Tue", temperature: "31°", weatherIcon: FiCloud },
   { timeOrDay: "Wed", temperature: "29°", weatherIcon: FiCloudRain },
   { timeOrDay: "Thu", temperature: "30°", weatherIcon: FiCloud },
   { timeOrDay: "Fri", temperature: "33°", weatherIcon: FiSun },
-  { timeOrDay: "Sat", temperature: "32°", weatherIcon: FiCloudSun },
+  { timeOrDay: "Sat", temperature: "32°", weatherIcon: FiCloud },
   { timeOrDay: "Sun", temperature: "30°", weatherIcon: FiCloudRain },
 ];
 
 export const hourlyForecast = [
   { timeOrDay: "Now", temperature: "31°", weatherIcon: FiSun },
   { timeOrDay: "11 AM", temperature: "32°", weatherIcon: FiSun },
-  { timeOrDay: "12 PM", temperature: "33°", weatherIcon: FiCloudSun },
-  { timeOrDay: "1 PM", temperature: "33°", weatherIcon: FiCloudSun },
+  { timeOrDay: "12 PM", temperature: "33°", weatherIcon: FiCloud },
+  { timeOrDay: "1 PM", temperature: "33°", weatherIcon: FiCloud },
   { timeOrDay: "2 PM", temperature: "32°", weatherIcon: FiCloud },
   { timeOrDay: "3 PM", temperature: "31°", weatherIcon: FiCloudRain },
   { timeOrDay: "4 PM", temperature: "30°", weatherIcon: FiCloudRain },
