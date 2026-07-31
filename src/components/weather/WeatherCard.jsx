@@ -1,26 +1,5 @@
-import { FiActivity, FiCloud, FiDroplet, FiWind } from "react-icons/fi";
-
-const weatherDescriptions = {
-  0: "Clear sky",
-  1: "Mainly clear",
-  2: "Partly cloudy",
-  3: "Overcast",
-  45: "Foggy",
-  48: "Foggy",
-  51: "Light drizzle",
-  53: "Drizzle",
-  55: "Heavy drizzle",
-  61: "Light rain",
-  63: "Rain",
-  65: "Heavy rain",
-  71: "Light snow",
-  73: "Snow",
-  75: "Heavy snow",
-  80: "Rain showers",
-  81: "Rain showers",
-  82: "Heavy rain showers",
-  95: "Thunderstorm",
-};
+import { FiActivity, FiDroplet, FiWind } from "react-icons/fi";
+import { mapWeatherCode } from "../../utils/weatherMapper";
 
 function WeatherCard({ weather }) {
   const currentWeather = weather || {
@@ -31,11 +10,14 @@ function WeatherCard({ weather }) {
     windSpeed: 12,
     pressure: 1008,
     weatherCode: 0,
+    isDay: true,
     units: { temperature: "°C", windSpeed: "km/h", pressure: "hPa" },
   };
   const { location, units } = currentWeather;
-  const weatherDescription =
-    weatherDescriptions[currentWeather.weatherCode] || "Current conditions";
+  const { description: weatherDescription, icon: WeatherIcon } = mapWeatherCode(
+    currentWeather.weatherCode,
+    currentWeather.isDay,
+  );
 
   return (
     <article className="overflow-hidden rounded-3xl border border-white/20 bg-white/10 p-5 text-white shadow-2xl shadow-slate-950/30 backdrop-blur-xl sm:p-7">
@@ -49,7 +31,7 @@ function WeatherCard({ weather }) {
         </div>
 
         <span className="grid size-14 shrink-0 place-items-center rounded-2xl border border-sky-200/20 bg-sky-300/15 text-sky-200 sm:size-16">
-          <FiCloud aria-hidden="true" className="text-3xl sm:text-4xl" />
+          <WeatherIcon aria-hidden="true" className="text-3xl sm:text-4xl" />
         </span>
       </div>
 

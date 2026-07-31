@@ -12,6 +12,15 @@ import {
   getHourlyForecast,
   getWeeklyForecast,
 } from "../services/weatherApi";
+import { validateCityName } from "../utils/searchValidation";
+
+const getSearchErrorMessage = (error) => {
+  if (/no location found/i.test(error?.message)) {
+    return "City not found. Please try another city.";
+  }
+
+  return "Unable to load weather right now. Please try again.";
+};
 
 function Home() {
   const [weather, setWeather] = useState(null);
@@ -20,30 +29,35 @@ function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleCitySearch = async (cityName) => {
+  const handleCitySearch = async (searchTerm) => {
+    if (isLoading) {
+      return;
+    }
+
+    const validation = validateCityName(searchTerm);
+
+    if (!validation.isValid) {
+      setError(validation.error);
+      return;
+    }
+
     setIsLoading(true);
     setError("");
-    setHourlyForecast([]);
-    setWeeklyForecast([]);
 
     try {
-      const location = await getCoordinates(cityName);
-      const currentWeather = await getCurrentWeather(
-        location.latitude,
-        location.longitude,
-      );
-
-      const weatherData = { ...currentWeather, location };
-      setWeather(weatherData);
-
-      const [hourlyData, weeklyData] = await Promise.all([
+      const location = await getCoordinates(validation.value);
+      const [currentWeather, hourlyData, weeklyData] = await Promise.all([
+        getCurrentWeather(location.latitude, location.longitude),
         getHourlyForecast(location.latitude, location.longitude),
         getWeeklyForecast(location.latitude, location.longitude),
       ]);
+
+      setWeather({ ...currentWeather, location });
       setHourlyForecast(hourlyData);
       setWeeklyForecast(weeklyData);
+      setError("");
     } catch (requestError) {
-      setError(requestError.message || "Unable to load weather for this city.");
+      setError(getSearchErrorMessage(requestError));
     } finally {
       setIsLoading(false);
     }

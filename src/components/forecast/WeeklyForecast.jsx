@@ -1,17 +1,5 @@
-import { FiCloud, FiCloudRain, FiSun } from "react-icons/fi";
 import ForecastCard from "./ForecastCard";
-
-const getWeatherIcon = (weatherCode) => {
-  if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(weatherCode)) {
-    return FiCloudRain;
-  }
-
-  if ([0, 1].includes(weatherCode)) {
-    return FiSun;
-  }
-
-  return FiCloud;
-};
+import { mapWeatherCode } from "../../utils/weatherMapper";
 
 const formatDay = (date) =>
   date
@@ -50,7 +38,7 @@ function WeeklyForecast({ forecast = [], isLoading }) {
             key={day.date}
             timeOrDay={formatDay(day.date)}
             temperature={`Max ${formatTemperature(day.temperatureMax, day.units?.temperature || "°C")} / Min ${formatTemperature(day.temperatureMin, day.units?.temperature || "°C")}`}
-            weatherIcon={getWeatherIcon(day.weatherCode)}
+            weatherIcon={mapWeatherCode(day.weatherCode).icon}
           />
         ))}
       </div>

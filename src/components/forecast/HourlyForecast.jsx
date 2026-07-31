@@ -1,17 +1,5 @@
-import { FiCloud, FiCloudRain, FiSun } from "react-icons/fi";
 import ForecastCard from "./ForecastCard";
-
-const getWeatherIcon = (weatherCode) => {
-  if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(weatherCode)) {
-    return FiCloudRain;
-  }
-
-  if ([0, 1].includes(weatherCode)) {
-    return FiSun;
-  }
-
-  return FiCloud;
-};
+import { mapWeatherCode } from "../../utils/weatherMapper";
 
 const formatTime = (time) => {
   if (!time) {
@@ -63,7 +51,7 @@ function HourlyForecast({ forecast = [], currentTime, isLoading }) {
                   ? "—"
                   : `${Math.round(temperature)}${units?.temperature || "°C"}`
               }
-              weatherIcon={getWeatherIcon(weatherCode)}
+              weatherIcon={mapWeatherCode(weatherCode).icon}
             />
           </div>
         ))}

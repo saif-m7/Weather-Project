@@ -7,10 +7,8 @@ function Hero({ onSearch, isLoading, error }) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const trimmedCityName = cityName.trim();
-
-    if (trimmedCityName) {
-      onSearch(trimmedCityName);
+    if (!isLoading) {
+      onSearch(cityName);
     }
   };
 
