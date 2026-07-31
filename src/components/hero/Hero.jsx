@@ -1,7 +1,7 @@
 import { FiMapPin, FiSearch } from "react-icons/fi";
 import { useState } from "react";
 
-function Hero({ onSearch, isLoading, error }) {
+function Hero({ onSearch, onUseCurrentLocation, isLoading, isLocationLoading, error }) {
   const [cityName, setCityName] = useState("");
 
   const handleSubmit = (event) => {
@@ -74,10 +74,12 @@ function Hero({ onSearch, isLoading, error }) {
 
         <button
           type="button"
+          onClick={onUseCurrentLocation}
+          disabled={isLoading}
           className="mt-5 inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium text-sky-200 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
         >
           <FiMapPin aria-hidden="true" className="text-base" />
-          Use Current Location
+          {isLocationLoading ? "Locating..." : "Use My Location"}
         </button>
       </div>
     </section>
