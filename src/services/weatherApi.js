@@ -1,16 +1,36 @@
 import axios from "axios";
 
-const geocodingApi = axios.create({
-  baseURL: "https://geocoding-api.open-meteo.com/v1",
-});
-
 const weatherApi = axios.create({
   baseURL: "https://api.open-meteo.com/v1",
+  timeout: 10000,
 });
 
+const geocodingApi = axios.create({
+  baseURL: "https://geocoding-api.open-meteo.com/v1",
+  timeout: 10000,
+});
+
+const createRequestError = (type, message) => {
+  const error = new Error(message);
+  error.weatherErrorType = type;
+  return error;
+};
+
 const handleApiError = (error, fallbackMessage) => {
+  if (error.weatherErrorType) {
+    throw error;
+  }
+
+  if (error.code === "ECONNABORTED" || error.code === "ETIMEDOUT") {
+    throw createRequestError("timeout", "The weather request timed out.");
+  }
+
+  if (error.request && !error.response) {
+    throw createRequestError("network", "Unable to reach the weather service.");
+  }
+
   const message = error.response?.data?.reason || fallbackMessage;
-  throw new Error(message);
+  throw createRequestError("api", message);
 };
 
 export const getCoordinates = async (cityName) => {
@@ -22,7 +42,7 @@ export const getCoordinates = async (cityName) => {
     const location = data.results?.[0];
 
     if (!location) {
-      throw new Error(`No location found for "${cityName}".`);
+      throw createRequestError("city-not-found", `No location found for "${cityName}".`);
     }
 
     return {

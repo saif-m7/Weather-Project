@@ -21,10 +21,10 @@ function HourlyForecast({ forecast = [], currentTime, isLoading }) {
   return (
     <section aria-labelledby="hourly-forecast-heading">
       <div className="mb-5 sm:mb-6">
-        <p className="text-sm font-medium text-sky-300">Today</p>
+        <p className="text-sm font-medium text-sky-700 dark:text-sky-300">Today</p>
         <h2
           id="hourly-forecast-heading"
-          className="mt-1 text-2xl font-semibold tracking-tight text-white sm:text-3xl"
+          className="mt-1 text-2xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-3xl"
         >
           Hourly forecast
         </h2>
@@ -32,11 +32,11 @@ function HourlyForecast({ forecast = [], currentTime, isLoading }) {
 
       <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 md:grid md:grid-cols-4 md:gap-4 md:overflow-visible lg:grid-cols-8">
         {isLoading && nextEightHours.length === 0 && (
-          <p className="text-sm text-slate-300">Loading hourly forecast...</p>
+          <p className="text-sm text-slate-600 dark:text-slate-300">Loading hourly forecast...</p>
         )}
 
         {!isLoading && nextEightHours.length === 0 && (
-          <p className="text-sm text-slate-300">Hourly forecast is unavailable.</p>
+          <p className="text-sm text-slate-600 dark:text-slate-300">Hourly forecast is unavailable.</p>
         )}
 
         {nextEightHours.map(({ time, temperature, weatherCode, units }) => (

@@ -32,10 +32,10 @@ function WeatherHighlights({ weather }) {
     <section aria-labelledby="weather-highlights-heading">
       <div className="mb-5 flex items-center justify-between sm:mb-6">
         <div>
-          <p className="text-sm font-medium text-sky-300">At a glance</p>
+        <p className="text-sm font-medium text-sky-700 dark:text-sky-300">At a glance</p>
           <h2
             id="weather-highlights-heading"
-            className="mt-1 text-2xl font-semibold tracking-tight text-white sm:text-3xl"
+            className="mt-1 text-2xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-3xl"
           >
             Weather highlights
           </h2>

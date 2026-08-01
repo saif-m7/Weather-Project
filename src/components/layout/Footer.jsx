@@ -5,7 +5,7 @@ const currentYear = new Date().getFullYear();
 
 function Footer() {
   return (
-    <footer className="mt-12 rounded-t-3xl border-x border-t border-slate-900/10 bg-white/70 text-slate-700 shadow-2xl shadow-sky-950/10 backdrop-blur-xl dark:border-white/15 dark:bg-slate-950/60 dark:text-slate-300 sm:mt-16 sm:rounded-t-[2rem]">
+    <footer className="mt-12 rounded-t-3xl border-x border-t border-slate-200 bg-white/80 text-slate-700 shadow-2xl shadow-sky-950/10 backdrop-blur-xl transition-colors duration-300 dark:border-slate-700 dark:bg-slate-900/75 dark:text-slate-300 sm:mt-16 sm:rounded-t-[2rem]">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 sm:px-6 sm:py-10 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12 lg:px-8">
         <div>
           <a
@@ -32,7 +32,7 @@ function Footer() {
             href="#"
             aria-label="WeatherNow on GitHub"
             title="GitHub link placeholder"
-            className="grid size-11 place-items-center rounded-full border border-slate-900/10 bg-slate-900/5 text-slate-700 transition duration-300 hover:-translate-y-0.5 hover:border-sky-500/30 hover:bg-sky-500/10 hover:text-sky-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 dark:border-white/10 dark:bg-white/10 dark:text-slate-200 dark:hover:border-sky-200/30 dark:hover:bg-white/15 dark:hover:text-sky-200 dark:focus-visible:outline-sky-300"
+            className="grid size-11 place-items-center rounded-full border border-slate-200 bg-slate-100 text-slate-700 transition duration-300 hover:-translate-y-0.5 hover:border-sky-500/30 hover:bg-sky-500/10 hover:text-sky-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-sky-200/30 dark:hover:bg-slate-700 dark:hover:text-sky-200 dark:focus-visible:outline-sky-300"
           >
             <FaGithub aria-hidden="true" className="text-xl" />
           </a>
@@ -40,14 +40,14 @@ function Footer() {
             href="#"
             aria-label="WeatherNow on LinkedIn"
             title="LinkedIn link placeholder"
-            className="grid size-11 place-items-center rounded-full border border-slate-900/10 bg-slate-900/5 text-slate-700 transition duration-300 hover:-translate-y-0.5 hover:border-sky-500/30 hover:bg-sky-500/10 hover:text-sky-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 dark:border-white/10 dark:bg-white/10 dark:text-slate-200 dark:hover:border-sky-200/30 dark:hover:bg-white/15 dark:hover:text-sky-200 dark:focus-visible:outline-sky-300"
+            className="grid size-11 place-items-center rounded-full border border-slate-200 bg-slate-100 text-slate-700 transition duration-300 hover:-translate-y-0.5 hover:border-sky-500/30 hover:bg-sky-500/10 hover:text-sky-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-sky-200/30 dark:hover:bg-slate-700 dark:hover:text-sky-200 dark:focus-visible:outline-sky-300"
           >
             <FaLinkedinIn aria-hidden="true" className="text-xl" />
           </a>
         </div>
       </div>
 
-      <div className="border-t border-slate-900/10 px-4 py-5 text-center text-xs text-slate-500 dark:border-white/10 dark:text-slate-400 sm:px-6 lg:px-8">
+      <div className="border-t border-slate-200 px-4 py-5 text-center text-xs text-slate-500 dark:border-slate-700 dark:text-slate-400 sm:px-6 lg:px-8">
         © {currentYear} WeatherNow. All rights reserved.
       </div>
     </footer>

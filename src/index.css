@@ -1,4 +1,81 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
 body{
     font-family: "Inter", sans-serif;
+}
+
+@keyframes weather-fall {
+  to {
+    transform: translate3d(var(--weather-wind, -5vw), 115vh, 0);
+  }
+}
+
+@keyframes weather-snowfall {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(calc(var(--weather-drift, 0px) * -0.35), 55vh, 0);
+  }
+  100% {
+    transform: translate3d(var(--weather-drift, 0px), 115vh, 0);
+  }
+}
+
+@keyframes weather-drift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes weather-twinkle {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.35);
+  }
+}
+
+.weather-raindrop {
+  animation-name: weather-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.weather-snowflake {
+  animation-name: weather-snowfall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.weather-light-particle {
+  animation: weather-drift 4s ease-in-out infinite;
+}
+
+.weather-star {
+  animation: weather-twinkle 3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weather-effect-motion {
+    animation: none;
+  }
 }
