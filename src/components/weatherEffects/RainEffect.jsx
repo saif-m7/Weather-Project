@@ -13,7 +13,7 @@ function RainEffect() {
       {drops.map((drop) => (
         <span
           key={drop.id}
-          className="weather-effect-motion weather-raindrop absolute top-[-10%] w-px rounded-full bg-sky-100/80 dark:bg-sky-200/50"
+          className="weather-effect-motion weather-raindrop absolute top-[-10%] w-[2px] rounded-full bg-sky-700/50 shadow-[0_0_3px_rgba(3,105,161,0.3)] dark:bg-sky-100/70 dark:shadow-[0_0_4px_rgba(224,242,254,0.4)]"
           style={{
             left: drop.left,
             height: drop.length,

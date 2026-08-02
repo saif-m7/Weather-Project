@@ -1,5 +1,6 @@
 import ForecastCard from "./ForecastCard";
 import { mapWeatherCode } from "../../utils/weatherMapper";
+import { convertTemperature, temperatureSymbol } from "../../utils/temperature";
 
 const formatDay = (date) =>
   date
@@ -11,10 +12,10 @@ const formatDay = (date) =>
 const formatTemperature = (temperature, unit) =>
   temperature == null ? "—" : `${Math.round(temperature)}${unit}`;
 
-function WeeklyForecast({ forecast = [], isLoading }) {
+function WeeklyForecast({ forecast = [], isLoading, temperatureUnit }) {
   return (
     <section aria-labelledby="weekly-forecast-heading">
-      <div className="mb-5 sm:mb-6">
+      <div className="mb-6 sm:mb-7">
         <p className="text-sm font-medium text-sky-700 dark:text-sky-300">The week ahead</p>
         <h2
           id="weekly-forecast-heading"
@@ -24,7 +25,7 @@ function WeeklyForecast({ forecast = [], isLoading }) {
         </h2>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-7">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-5 lg:grid-cols-7">
         {isLoading && forecast.length === 0 && (
           <p className="text-sm text-slate-600 dark:text-slate-300">Loading weekly forecast...</p>
         )}
@@ -37,7 +38,7 @@ function WeeklyForecast({ forecast = [], isLoading }) {
           <ForecastCard
             key={day.date}
             timeOrDay={formatDay(day.date)}
-            temperature={`Max ${formatTemperature(day.temperatureMax, day.units?.temperature || "°C")} / Min ${formatTemperature(day.temperatureMin, day.units?.temperature || "°C")}`}
+            temperature={`Max ${formatTemperature(convertTemperature(day.temperatureMax, temperatureUnit), temperatureSymbol(temperatureUnit))} / Min ${formatTemperature(convertTemperature(day.temperatureMin, temperatureUnit), temperatureSymbol(temperatureUnit))}`}
             weatherIcon={mapWeatherCode(day.weatherCode).icon}
           />
         ))}

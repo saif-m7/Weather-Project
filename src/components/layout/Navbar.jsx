@@ -1,9 +1,12 @@
 import { FiChevronDown, FiClock, FiCloud, FiMoon, FiStar, FiSun } from "react-icons/fi";
 import { useState } from "react";
+import { TEMPERATURE_UNITS } from "../../utils/temperature";
 
 function Navbar({
   theme,
   onToggleTheme,
+  temperatureUnit,
+  onTemperatureUnitChange,
   favorites,
   onSelectFavorite,
   recentSearches,
@@ -27,7 +30,7 @@ function Navbar({
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-xl transition-colors duration-300 dark:border-slate-700 dark:bg-slate-900/75">
       <nav
         aria-label="Main navigation"
-        className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8"
+        className="mx-auto flex h-16 max-w-7xl items-center justify-between px-3 sm:h-20 sm:px-6 lg:px-8"
       >
         <a
           href="/"
@@ -37,12 +40,34 @@ function Navbar({
           <span className="grid size-10 place-items-center rounded-2xl border border-sky-500/20 bg-gradient-to-br from-sky-300/40 to-blue-500/20 text-sky-700 shadow-lg shadow-sky-500/15 transition-transform duration-300 group-hover:scale-105 dark:border-sky-200/20 dark:from-sky-300/30 dark:text-sky-200 dark:shadow-sky-950/30 sm:size-11">
             <FiCloud aria-hidden="true" className="text-2xl sm:text-[1.65rem]" />
           </span>
-          <span className="text-lg font-bold tracking-tight text-slate-900 transition-colors duration-300 dark:text-white sm:text-xl">
+          <span className="hidden text-lg font-bold tracking-tight text-slate-900 transition-colors duration-300 dark:text-white sm:inline sm:text-xl">
             WeatherNow
           </span>
         </a>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3">
+          <div
+            className="flex h-10 items-center rounded-full border border-slate-200 bg-slate-100 p-1 text-xs font-semibold text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 sm:h-11"
+            aria-label="Temperature unit"
+          >
+            {[TEMPERATURE_UNITS.celsius, TEMPERATURE_UNITS.fahrenheit].map((unit) => (
+              <button
+                key={unit}
+                type="button"
+                onClick={() => onTemperatureUnitChange(unit)}
+                aria-pressed={temperatureUnit === unit}
+                aria-label={`Display temperatures in degrees ${unit}`}
+                className={`rounded-full px-2.5 py-1.5 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 ${
+                  temperatureUnit === unit
+                    ? "bg-white text-sky-700 shadow-sm dark:bg-slate-700 dark:text-sky-200"
+                    : "hover:text-sky-700 dark:hover:text-sky-200"
+                }`}
+              >
+                °{unit === TEMPERATURE_UNITS.celsius ? "C" : "F"}
+              </button>
+            ))}
+          </div>
+
           <div className="relative">
             <button
               type="button"
@@ -61,7 +86,7 @@ function Navbar({
               <div
                 role="menu"
                 aria-label="Recent searches"
-                className="absolute right-0 mt-2 w-60 overflow-hidden rounded-2xl border border-slate-200 bg-white p-1.5 shadow-xl shadow-slate-900/10 transition-colors duration-300 dark:border-slate-700 dark:bg-slate-900 dark:shadow-slate-950/40"
+                className="absolute right-0 mt-2 w-60 overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 p-2 shadow-xl shadow-slate-900/10 backdrop-blur-xl transition-colors duration-300 dark:border-slate-700/80 dark:bg-slate-900/90 dark:shadow-slate-950/40"
               >
                 <div className="flex items-center justify-between px-3 py-2">
                   <span className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
@@ -122,7 +147,7 @@ function Navbar({
               <div
                 role="menu"
                 aria-label="Favorite cities"
-                className="absolute right-0 mt-2 w-60 overflow-hidden rounded-2xl border border-slate-200 bg-white p-1.5 shadow-xl shadow-slate-900/10 transition-colors duration-300 dark:border-slate-700 dark:bg-slate-900 dark:shadow-slate-950/40"
+                className="absolute right-0 mt-2 w-60 overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 p-2 shadow-xl shadow-slate-900/10 backdrop-blur-xl transition-colors duration-300 dark:border-slate-700/80 dark:bg-slate-900/90 dark:shadow-slate-950/40"
               >
                 {favorites.length === 0 ? (
                   <p className="px-3 py-2 text-sm text-slate-600 dark:text-slate-400">

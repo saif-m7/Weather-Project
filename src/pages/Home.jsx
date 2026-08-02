@@ -3,10 +3,13 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import Hero from "../components/hero/Hero";
 import HourlyForecast from "../components/forecast/HourlyForecast";
+import TemperatureChart from "../components/forecast/TemperatureChart";
 import WeeklyForecast from "../components/forecast/WeeklyForecast";
 import WeatherCard from "../components/weather/WeatherCard";
 import WeatherHighlights from "../components/weather/WeatherHighlights";
+import SunriseSunsetCard from "../components/weather/SunriseSunsetCard";
 import WeatherBackground from "../components/weatherEffects/WeatherBackground";
+import { TEMPERATURE_UNITS } from "../utils/temperature";
 
 import {
   getCoordinates,
@@ -62,6 +65,12 @@ const getCurrentPosition = () =>
 
 function Home() {
   const [theme, setTheme] = useState(() => localStorage.getItem("weather-now-theme") || "dark");
+  const [temperatureUnit, setTemperatureUnit] = useState(() => {
+    const savedUnit = localStorage.getItem("weather-now-temperature-unit");
+    return savedUnit === TEMPERATURE_UNITS.fahrenheit
+      ? TEMPERATURE_UNITS.fahrenheit
+      : TEMPERATURE_UNITS.celsius;
+  });
   const [favorites, setFavorites] = useState(getSavedFavorites);
   const [recentSearches, setRecentSearches] = useState(getSavedRecentSearches);
   const [weather, setWeather] = useState(null);
@@ -75,6 +84,10 @@ function Home() {
     document.documentElement.classList.toggle("dark", theme === "dark");
     localStorage.setItem("weather-now-theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem("weather-now-temperature-unit", temperatureUnit);
+  }, [temperatureUnit]);
 
   const toggleTheme = () => {
     setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"));
@@ -200,6 +213,8 @@ function Home() {
       <Navbar
         theme={theme}
         onToggleTheme={toggleTheme}
+        temperatureUnit={temperatureUnit}
+        onTemperatureUnitChange={setTemperatureUnit}
         favorites={favorites}
         onSelectFavorite={handleFavoriteSelect}
         recentSearches={recentSearches}
@@ -213,20 +228,34 @@ function Home() {
         isLocationLoading={isLocationLoading}
         error={error}
       />
-      <WeatherCard
-        weather={weather}
-        isFavorite={Boolean(
-          weather?.location && favorites.some(({ id }) => id === createFavorite(weather.location).id),
-        )}
-        onToggleFavorite={toggleFavorite}
-      />
-      <WeatherHighlights weather={weather} />
-      <HourlyForecast
-        forecast={hourlyForecast}
-        currentTime={weather?.time}
-        isLoading={isLoading}
-      />
-      <WeeklyForecast forecast={weeklyForecast} isLoading={isLoading} />
+      <div className="relative z-0 mx-auto max-w-7xl space-y-10 px-4 pb-12 sm:space-y-12 sm:px-6 sm:pb-16 lg:space-y-14 lg:px-8 lg:pb-20">
+        <WeatherCard
+          weather={weather}
+          temperatureUnit={temperatureUnit}
+          isFavorite={Boolean(
+            weather?.location && favorites.some(({ id }) => id === createFavorite(weather.location).id),
+          )}
+          onToggleFavorite={toggleFavorite}
+        />
+        <WeatherHighlights weather={weather} temperatureUnit={temperatureUnit} />
+        <SunriseSunsetCard day={weeklyForecast[0]} currentTime={weather?.time} />
+        <HourlyForecast
+          forecast={hourlyForecast}
+          currentTime={weather?.time}
+          isLoading={isLoading}
+          temperatureUnit={temperatureUnit}
+        />
+        <TemperatureChart
+          forecast={hourlyForecast}
+          currentTime={weather?.time}
+          temperatureUnit={temperatureUnit}
+        />
+        <WeeklyForecast
+          forecast={weeklyForecast}
+          isLoading={isLoading}
+          temperatureUnit={temperatureUnit}
+        />
+      </div>
       <Footer />
     </main>
   );

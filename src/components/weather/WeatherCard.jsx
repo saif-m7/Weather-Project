@@ -1,7 +1,8 @@
 import { FiActivity, FiDroplet, FiStar, FiWind } from "react-icons/fi";
 import { mapWeatherCode } from "../../utils/weatherMapper";
+import { convertTemperature, temperatureSymbol } from "../../utils/temperature";
 
-function WeatherCard({ weather, isFavorite, onToggleFavorite }) {
+function WeatherCard({ weather, isFavorite, onToggleFavorite, temperatureUnit }) {
   const currentWeather = weather || {
     location: { name: "Hyderabad", country: "India" },
     temperature: 29,
@@ -14,13 +15,16 @@ function WeatherCard({ weather, isFavorite, onToggleFavorite }) {
     units: { temperature: "°C", windSpeed: "km/h", pressure: "hPa" },
   };
   const { location, units } = currentWeather;
+  const temperature = convertTemperature(currentWeather.temperature, temperatureUnit);
+  const feelsLike = convertTemperature(currentWeather.feelsLike, temperatureUnit);
+  const unitSymbol = temperatureSymbol(temperatureUnit);
   const { description: weatherDescription, icon: WeatherIcon } = mapWeatherCode(
     currentWeather.weatherCode,
     currentWeather.isDay,
   );
 
   return (
-    <article className="overflow-hidden rounded-3xl border border-slate-200 bg-white/80 p-5 text-slate-900 shadow-2xl shadow-sky-950/10 backdrop-blur-xl transition-colors duration-300 dark:border-slate-700 dark:bg-slate-900/75 dark:text-white dark:shadow-slate-950/30 sm:p-7">
+    <article className="group overflow-hidden rounded-3xl border border-slate-200/80 bg-white/75 p-6 text-slate-900 shadow-xl shadow-sky-950/10 backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-sky-500/30 hover:bg-white/85 hover:shadow-2xl hover:shadow-sky-950/15 dark:border-slate-700/80 dark:bg-slate-900/75 dark:text-white dark:shadow-slate-950/30 dark:hover:border-sky-200/25 dark:hover:bg-slate-900/85 sm:p-8">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-sm font-medium text-sky-700 dark:text-sky-200">Current weather</p>
@@ -53,10 +57,10 @@ function WeatherCard({ weather, isFavorite, onToggleFavorite }) {
       <div className="mt-8 flex items-end justify-between gap-4">
         <div className="flex items-start">
           <span className="text-6xl font-light leading-none tracking-tighter sm:text-7xl">
-            {Math.round(currentWeather.temperature)}
+            {Math.round(temperature)}
           </span>
           <span className="mt-1 text-2xl font-light text-sky-700 dark:text-sky-100 sm:text-3xl">
-            {units.temperature}
+            {unitSymbol}
           </span>
         </div>
         <p className="pb-1 text-right text-base font-medium text-slate-700 dark:text-slate-200 sm:text-lg">
@@ -68,7 +72,7 @@ function WeatherCard({ weather, isFavorite, onToggleFavorite }) {
         <div className="pr-3 sm:pr-4">
           <dt className="text-xs text-slate-500 dark:text-slate-400">Feels like</dt>
           <dd className="mt-2 text-sm font-semibold text-slate-800 dark:text-slate-100 sm:text-base">
-            {Math.round(currentWeather.feelsLike)}{units.temperature}
+            {Math.round(feelsLike)}{unitSymbol}
           </dd>
         </div>
         <div className="pl-3 sm:px-4">

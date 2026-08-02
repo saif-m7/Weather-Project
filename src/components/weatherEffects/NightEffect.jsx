@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import moon from "../../assets/weather/moon.svg";
+import CloudEffect from "./CloudEffect";
 
 const stars = Array.from({ length: 64 }, (_, index) => ({
   id: index,
@@ -22,6 +23,7 @@ function NightEffect() {
       >
         <img src={moon} alt="" className="size-full opacity-90 dark:opacity-80" />
       </motion.div>
+      <CloudEffect />
       {stars.map((star) => (
         <span
           key={star.id}

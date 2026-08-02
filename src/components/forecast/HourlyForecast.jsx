@@ -1,5 +1,6 @@
 import ForecastCard from "./ForecastCard";
 import { mapWeatherCode } from "../../utils/weatherMapper";
+import { convertTemperature, temperatureSymbol } from "../../utils/temperature";
 
 const formatTime = (time) => {
   if (!time) {
@@ -13,14 +14,14 @@ const formatTime = (time) => {
   return `${displayHour} ${period}`;
 };
 
-function HourlyForecast({ forecast = [], currentTime, isLoading }) {
+function HourlyForecast({ forecast = [], currentTime, isLoading, temperatureUnit }) {
   const nextEightHours = forecast
     .filter(({ time }) => !currentTime || time >= currentTime)
     .slice(0, 8);
 
   return (
     <section aria-labelledby="hourly-forecast-heading">
-      <div className="mb-5 sm:mb-6">
+      <div className="mb-6 sm:mb-7">
         <p className="text-sm font-medium text-sky-700 dark:text-sky-300">Today</p>
         <h2
           id="hourly-forecast-heading"
@@ -30,7 +31,7 @@ function HourlyForecast({ forecast = [], currentTime, isLoading }) {
         </h2>
       </div>
 
-      <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 md:grid md:grid-cols-4 md:gap-4 md:overflow-visible lg:grid-cols-8">
+      <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 md:grid md:grid-cols-4 md:gap-5 md:overflow-visible lg:grid-cols-8">
         {isLoading && nextEightHours.length === 0 && (
           <p className="text-sm text-slate-600 dark:text-slate-300">Loading hourly forecast...</p>
         )}
@@ -39,7 +40,7 @@ function HourlyForecast({ forecast = [], currentTime, isLoading }) {
           <p className="text-sm text-slate-600 dark:text-slate-300">Hourly forecast is unavailable.</p>
         )}
 
-        {nextEightHours.map(({ time, temperature, weatherCode, units }) => (
+        {nextEightHours.map(({ time, temperature, weatherCode }) => (
           <div
             key={time}
             className="min-w-32 snap-start md:min-w-0"
@@ -49,7 +50,7 @@ function HourlyForecast({ forecast = [], currentTime, isLoading }) {
               temperature={
                 temperature == null
                   ? "—"
-                  : `${Math.round(temperature)}${units?.temperature || "°C"}`
+                  : `${Math.round(convertTemperature(temperature, temperatureUnit))}${temperatureSymbol(temperatureUnit)}`
               }
               weatherIcon={mapWeatherCode(weatherCode).icon}
             />

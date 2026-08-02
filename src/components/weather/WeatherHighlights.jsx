@@ -1,10 +1,11 @@
 import { FiActivity, FiDroplet, FiThermometer, FiWind } from "react-icons/fi";
 import HighlightCard from "./HighlightCard";
+import { convertTemperature, temperatureSymbol } from "../../utils/temperature";
 
 const formatValue = (value, unit, addSpace = false) =>
   value == null ? "—" : `${Math.round(value)}${addSpace ? " " : ""}${unit}`;
 
-function WeatherHighlights({ weather }) {
+function WeatherHighlights({ weather, temperatureUnit }) {
   const highlights = [
     {
       label: "Humidity",
@@ -23,14 +24,14 @@ function WeatherHighlights({ weather }) {
     },
     {
       label: "Feels Like Temperature",
-      value: formatValue(weather?.feelsLike, weather?.units?.temperature || "°C"),
+      value: formatValue(convertTemperature(weather?.feelsLike, temperatureUnit), temperatureSymbol(temperatureUnit)),
       icon: FiThermometer,
     },
   ];
 
   return (
     <section aria-labelledby="weather-highlights-heading">
-      <div className="mb-5 flex items-center justify-between sm:mb-6">
+      <div className="mb-6 flex items-center justify-between sm:mb-7">
         <div>
         <p className="text-sm font-medium text-sky-700 dark:text-sky-300">At a glance</p>
           <h2
@@ -42,7 +43,7 @@ function WeatherHighlights({ weather }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
         {highlights.map(({ icon, label, value }) => (
           <HighlightCard key={label} icon={icon} label={label} value={value} />
         ))}
